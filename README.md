@@ -53,7 +53,7 @@ res = await axios.get('/api/private', {
 `connectUserContext(options)`
 | Attribute | Type | Default value | Description
 |---|---|---|---|
-| authorizationHeaderName | string | 'authorization' | set a different header for the authorization token. |
+| authorizationHeaderName | string | 'authorization' | set a different header for the authorization token. (not recommended) |
 | user | boolean | true | define whether the user document should be added to the request |
 | fields | object | null | [field specifier](https://docs.meteor.com/api/collections.html#fieldspecifiers) to set which fields should be included in the user document |
 
