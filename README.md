@@ -4,7 +4,7 @@ A middleware to get access to Meteor user context in the connect API endpoints (
 
 ## What problem does it solve ?
 
-It's simply`this.userId` equivalent but for http endpoints.
+It's simply`this.userId` equivalent but for http endpoints. It also provides a fetch wrapper with the Meteor user token already set.
 Remember that passing userId directly via the request body is not secure (although the connection is encrypted)
 
 ## Install
@@ -17,10 +17,12 @@ npm install --save meteor-webapp-user-context
 
 ```js
 // client code
-res = await axios.get('/api/private', {
-	headers: {
-		// For the middleware to work, you need to pass the login token in "Authorization" header.
-		Authorization: Meteor._localStorage.getItem('Meteor.loginToken'),
+import { meteorFetch } from 'meteor-webapp-user-context';
+
+const res = await meteorFetch('/api/private', {
+	method: 'POST',
+	body: {
+		/* your request body */
 	},
 });
 
@@ -31,6 +33,18 @@ WebApp.connectHandlers.use(connectUserContext());
 
 WebApp.connectHandlers.use('/api/private', async (req, res, next) => {
 	console.log(req.userId, req.user);
+});
+```
+
+### Example with axios and custom authorization header
+
+```js
+// client code
+res = await axios.get('/api/private', {
+	headers: {
+		// For the middleware to work, you need to pass the login token in "Authorization" header.
+		Authorization: Meteor._localStorage.getItem('Meteor.loginToken'),
+	},
 });
 ```
 

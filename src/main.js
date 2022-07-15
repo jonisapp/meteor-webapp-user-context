@@ -1,4 +1,25 @@
 const Meteor = global.Package['meteor'].Meteor;
+const Accounts = global.Package['accounts-base'].Accounts;
+
+/* 
+  Throw errors if Meteor or accounts-base are not found
+*/
+
+if (!Meteor) {
+	throw new Error(
+		'meteor-webapp-user-context is intented to work within the Meteor framework exclusively.'
+	);
+}
+
+if (!Accounts) {
+	throw new Error(
+		'accounts-base Meteor package must be added to your project.\nYou can add it by typing the command : Meteor add accounts-base'
+	);
+}
+
+/*
+  init
+*/
 
 const defaultOptions = {
 	authorizationHeaderName: 'authorization',
@@ -7,12 +28,13 @@ const defaultOptions = {
 };
 
 const meteorConnectUserContext = (params) => async (req, res, next) => {
-	const _params = {
+	const _options = {
 		...defaultOptions,
 		...params,
 	};
-	const { authorizationHeaderName, fields } = _params;
-	const includesUserDocument = _params.user;
+
+	const { authorizationHeaderName, fields } = _options;
+	const includesUserDocument = _options.user;
 	const token = req.headers[authorizationHeaderName];
 
 	if (token) {
@@ -29,9 +51,12 @@ const meteorConnectUserContext = (params) => async (req, res, next) => {
 			}
 
 			try {
-				user = await Meteor.users.findOne({
-					'services.resume.loginTokens.hashedToken': hashedToken,
-				});
+				user = await Meteor.users.findOne(
+					{
+						'services.resume.loginTokens.hashedToken': hashedToken,
+					},
+					project
+				);
 			} catch (error) {
 				res
 					.writeHead(401, { 'Content-Type': 'application/json' })
@@ -56,6 +81,20 @@ const meteorConnectUserContext = (params) => async (req, res, next) => {
 	}
 
 	next();
+};
+
+/*
+  fetch wrapper with pre-configured Authorization header
+*/
+
+export const meteorFetch = (url, options) => {
+	return fetch(url, {
+		...options,
+		headers: {
+			Authorization: Meteor._localStorage.getItem('Meteor.loginToken'),
+			...options.headers,
+		},
+	});
 };
 
 export default meteorConnectUserContext;
