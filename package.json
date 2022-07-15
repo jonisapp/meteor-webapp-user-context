@@ -1,0 +1,32 @@
+{
+	"name": "meteor-webapp-user-context",
+	"version": "1.0.7",
+	"description": "A middleware to get access to Meteor user context in the connect API endpoints (exposed through WebApp.connectHandlers). It sets req.user and req.userId.",
+	"main": "src/main.js",
+	"files": [
+		"dist/index.js"
+	],
+	"scripts": {
+		"build": "webpack",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"meteor",
+		"connect-api",
+		"connectHandlers",
+		"webapp",
+		"middleware",
+		"userId",
+		"user",
+		"user-context",
+		"authorization",
+		"token"
+	],
+	"author": "Jonathan Zappalà",
+	"license": "MIT",
+	"dependencies": {},
+	"devDependencies": {
+		"webpack": "^5.73.0",
+		"webpack-cli": "^4.10.0"
+	}
+}
