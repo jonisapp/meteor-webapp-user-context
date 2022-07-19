@@ -2,8 +2,8 @@ declare global {
 	var Package: any;
 }
 
-var Meteor: any = global.Package['meteor'].Meteor as any;
-var Accounts: any = global.Package['accounts-base'].Accounts as any;
+var Meteor: any = global.Package['meteor'].Meteor;
+var Accounts: any = global.Package['accounts-base'].Accounts;
 
 /* 
   Throw errors if Meteor or accounts-base are not found
@@ -26,9 +26,9 @@ if (!Accounts) {
 */
 
 interface MeteorConnectUserContextParams {
-	authorizationHeaderName: string;
-	user: boolean;
-	fields: object | null;
+	authorizationHeaderName?: string;
+	user?: boolean;
+	fields?: object | null;
 }
 
 const defaultOptions: MeteorConnectUserContextParams = {
@@ -38,7 +38,7 @@ const defaultOptions: MeteorConnectUserContextParams = {
 };
 
 const meteorConnectUserContext =
-	(params: MeteorConnectUserContextParams) =>
+	(params?: MeteorConnectUserContextParams) =>
 	async (req: any, res: any, next: any) => {
 		const _options = {
 			...defaultOptions,
