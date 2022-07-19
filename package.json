@@ -1,10 +1,11 @@
 {
 	"name": "meteor-webapp-user-context",
-	"version": "1.1.6",
+	"version": "1.1.7",
 	"description": "A middleware to get access to Meteor user context in the connect API endpoints (exposed through WebApp.connectHandlers). It sets req.user and req.userId.",
 	"files": [
 		"dist"
 	],
+	"type": "module",
 	"types": "index.d.ts",
 	"main": "dist/index.js",
 	"scripts": {
