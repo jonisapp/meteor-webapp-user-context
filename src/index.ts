@@ -1,3 +1,5 @@
+import { IncomingMessage, ServerResponse } from 'http';
+
 declare global {
 	var Package: any;
 }
@@ -39,7 +41,11 @@ const defaultOptions: MeteorConnectUserContextParams = {
 
 const meteorConnectUserContext =
 	(params?: MeteorConnectUserContextParams) =>
-	async (req: any, res: any, next: any) => {
+	async (
+		req: IncomingMessage & { user: any; userId: string },
+		res: ServerResponse,
+		next: any
+	) => {
 		const _options = {
 			...defaultOptions,
 			...params,
