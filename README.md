@@ -40,12 +40,18 @@ WebApp.connectHandlers.use('/api/private', async (req, res, next) => {
 
 ```js
 // client code
-res = await axios.get('/api/private', {
-	headers: {
-		// For the middleware to work, you need to pass the login token in "Authorization" header.
-		Authorization: Meteor._localStorage.getItem('Meteor.loginToken'),
+res = await axios.get(
+	'/api/private',
+	{
+		/* body */
 	},
-});
+	{
+		headers: {
+			// For the middleware to work, you need to pass the login token in "Authorization" header.
+			Authorization: Meteor._localStorage.getItem('Meteor.loginToken'),
+		},
+	}
+);
 ```
 
 ## Options
